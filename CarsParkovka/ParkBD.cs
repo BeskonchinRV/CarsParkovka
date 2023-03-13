@@ -1,47 +1,46 @@
-using Parking;
+using CarClass;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace CarClass
+namespace Parking
 {
-    public class Menu
+    class Park
     {
-        public static void AddCar(ref Car[] array, int n)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Введите информацию о машине");
-            Console.WriteLine("Марка:");
-            string inMark = Console.ReadLine();
-            Console.WriteLine("Модель:");
-            string inModel = Console.ReadLine();
-            Console.WriteLine("Цвет:");
-            string inColor = Console.ReadLine();
-            Console.WriteLine("Номер:");
-            string inNumber = Console.ReadLine();
-            Console.WriteLine("Время прибытия");
-            string inTime = Console.ReadLine();
-
-            Car car = new Car(inMark, inModel, inColor, inNumber, inTime, n);
-            Array.Resize(ref array, array.Length + 1);
-            array[array.Length - 1] = car;
-            //return array;
-        }
-        public static void PrintInfo(ref Car[] array)
-        {
-            int i = 1;
-            foreach (Car item in array)
+            Car[] array = new Car[0];
+            int n = 0;
+            bool a = true;
+            while (a)
             {
-                Console.WriteLine("Машина номер " + i);
-                Console.WriteLine($"1. Марка: {item.mark}\n2. Модель: {item.model}\n3. Цвет: {item.color}\n4. Номер: {item.number}\n5. Время прибытия: {item.time}");
-                i++;
+                Console.WriteLine("Меню: \n 1 - Добавить машину \n 2 - Поиск по базе \n 3 - Показать все машины в базе \n 4 - Выход из программы");
+                ConsoleKey key = Console.ReadKey().Key;
+                Console.WriteLine();
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                        Menu.AddCar(ref array, n);
+                        n++;
+                        break;
+                    case ConsoleKey.D2:
+                        Car.SearchCar(ref array);
+                        break;
+                    case ConsoleKey.D3:
+                        Menu.PrintInfo(ref array);
+                        break;
+                    case ConsoleKey.D4:
+                        a = false;
+                        Console.WriteLine("Выход из программы");
+                        break;
+
+                    default:
+                        Console.WriteLine("Вы ввели неверную клавишу");
+                        break;
+                }
             }
-        }
-        public static void DeleteCar(ref Car[] array, int n)
-        {
-            var b = new Car[array.Length - 1]; // Предположим, что массивы целочисленные
-            Array.Copy(array, 0, b, 0, n);
-            Array.Copy(array, n + 1, b, n, array.Length - n - 1);
-            array = b;
         }
     }
 }
